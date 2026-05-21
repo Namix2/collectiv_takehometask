@@ -13,3 +13,12 @@ export type PotCategory =
         createdAt: string;
     }
 
+    export interface PotCreationInput {
+        name: string;
+        category: PotCategory | '';
+    }
+
+    export interface PotValidationErrors {
+        name?: string;
+        category?: string;
+    }
