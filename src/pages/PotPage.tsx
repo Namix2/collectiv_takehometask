@@ -74,6 +74,7 @@ export function PotPage() {
             {'\u00A30.00'}
           </p>
         </div>
+
       </section>
 
       <section className="relative z-10 -mt-12 px-4">
@@ -107,7 +108,7 @@ export function PotPage() {
           />
         </div>
 
-        <div className="mx-auto mt-10 max-w-[664px] rounded-[18px] bg-[#f1f1fe] p-4 shadow-[0_4px_12px_rgba(30,27,75,0.04)]">
+        <div className="mx-auto mt-10 max-w-[664px] rounded-[18px] bg-[#E9E8FC40] p-4 shadow-[0_4px_12px_rgba(30,27,75,0.04)]">
           <h2 className="px-2 pb-4 text-[18px] font-semibold tracking-[-0.02em] text-brand-indigo">
             Invite people to pay
           </h2>

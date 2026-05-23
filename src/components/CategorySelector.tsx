@@ -36,7 +36,7 @@ export function CategorySelector({
               className={`flex min-h-[68px] cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border px-3 py-2 text-center transition duration-150 ease-in-out hover:border-accent-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20 ${
                 isActive
                   ? 'border-accent-yellow bg-accent-yellow-soft shadow-[0_0_0_2px_rgba(255,222,0,0.35)]'
-                  : 'border-border-soft bg-white'
+                  : 'border-border-soft bg-[#F9FAFB]'
               }`}
               onClick={() => onChange(cat.value)}
             >
