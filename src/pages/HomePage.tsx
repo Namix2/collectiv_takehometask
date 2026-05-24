@@ -1,4 +1,11 @@
-import { useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import penIcon from "../assets/pen.svg";
 import { CategorySelector } from "../components/CategorySelector";
@@ -96,6 +103,182 @@ const footerColumns: Array<{ heading: string; items: string[] }> = [
   },
 ];
 
+const moneyStackItems = [
+  ["\u00A3250.00", "Jenny's Birthday Present \uD83C\uDF81"],
+  ["\u00A367.00", "Thursday Tennis \uD83C\uDFBE"],
+  ["\u00A33,650.00", "New York Holiday \uD83D\uDDFD"],
+] as const;
+
+const moneyStackBaseStyle = {
+  "--money-rotate-x": "0deg",
+  "--money-rotate-y": "0deg",
+  "--money-scale": "1",
+  "--money-card-1-x": "0px",
+  "--money-card-1-y": "0px",
+  "--money-card-2-x": "0px",
+  "--money-card-2-y": "0px",
+  "--money-card-3-x": "0px",
+  "--money-card-3-y": "0px",
+} as CSSProperties;
+
+type MoneyStackMotion = {
+  rotateX: number;
+  rotateY: number;
+  scale: number;
+  card1X: number;
+  card1Y: number;
+  card2X: number;
+  card2Y: number;
+  card3X: number;
+  card3Y: number;
+};
+
+const moneyStackRestMotion: MoneyStackMotion = {
+  rotateX: 0,
+  rotateY: 0,
+  scale: 1,
+  card1X: 0,
+  card1Y: 0,
+  card2X: 0,
+  card2Y: 0,
+  card3X: 0,
+  card3Y: 0,
+};
+
+function applyMoneyStackMotion(target: HTMLDivElement, motion: MoneyStackMotion) {
+  target.style.setProperty("--money-rotate-x", `${motion.rotateX.toFixed(2)}deg`);
+  target.style.setProperty("--money-rotate-y", `${motion.rotateY.toFixed(2)}deg`);
+  target.style.setProperty("--money-scale", motion.scale.toFixed(3));
+  target.style.setProperty("--money-card-1-x", `${motion.card1X.toFixed(2)}px`);
+  target.style.setProperty("--money-card-1-y", `${motion.card1Y.toFixed(2)}px`);
+  target.style.setProperty("--money-card-2-x", `${motion.card2X.toFixed(2)}px`);
+  target.style.setProperty("--money-card-2-y", `${motion.card2Y.toFixed(2)}px`);
+  target.style.setProperty("--money-card-3-x", `${motion.card3X.toFixed(2)}px`);
+  target.style.setProperty("--money-card-3-y", `${motion.card3Y.toFixed(2)}px`);
+}
+
+function MoneyStackShowcase() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef<number | null>(null);
+  const currentMotionRef = useRef<MoneyStackMotion>(moneyStackRestMotion);
+  const targetMotionRef = useRef<MoneyStackMotion>(moneyStackRestMotion);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
+
+  function animateMoneyStackMotion() {
+    const element = containerRef.current;
+
+    if (!element) {
+      frameRef.current = null;
+      return;
+    }
+
+    const current = currentMotionRef.current;
+    const target = targetMotionRef.current;
+    const next: MoneyStackMotion = {
+      rotateX: current.rotateX + (target.rotateX - current.rotateX) * 0.14,
+      rotateY: current.rotateY + (target.rotateY - current.rotateY) * 0.14,
+      scale: current.scale + (target.scale - current.scale) * 0.14,
+      card1X: current.card1X + (target.card1X - current.card1X) * 0.14,
+      card1Y: current.card1Y + (target.card1Y - current.card1Y) * 0.14,
+      card2X: current.card2X + (target.card2X - current.card2X) * 0.14,
+      card2Y: current.card2Y + (target.card2Y - current.card2Y) * 0.14,
+      card3X: current.card3X + (target.card3X - current.card3X) * 0.14,
+      card3Y: current.card3Y + (target.card3Y - current.card3Y) * 0.14,
+    };
+
+    currentMotionRef.current = next;
+    applyMoneyStackMotion(element, next);
+
+    const settled =
+      Math.abs(target.rotateX - next.rotateX) < 0.02 &&
+      Math.abs(target.rotateY - next.rotateY) < 0.02 &&
+      Math.abs(target.scale - next.scale) < 0.002 &&
+      Math.abs(target.card3X - next.card3X) < 0.08 &&
+      Math.abs(target.card3Y - next.card3Y) < 0.08;
+
+    if (settled) {
+      currentMotionRef.current = target;
+      applyMoneyStackMotion(element, target);
+      frameRef.current = null;
+      return;
+    }
+
+    frameRef.current = requestAnimationFrame(animateMoneyStackMotion);
+  }
+
+  function queueMoneyStackAnimation() {
+    if (frameRef.current === null) {
+      frameRef.current = requestAnimationFrame(animateMoneyStackMotion);
+    }
+  }
+
+  function handleMoneyStackMove(event: MouseEvent<HTMLDivElement>) {
+    const { currentTarget, clientX, clientY } = event;
+    const rect = currentTarget.getBoundingClientRect();
+    const horizontal = (clientX - rect.left) / rect.width - 0.5;
+    const vertical = (clientY - rect.top) / rect.height - 0.5;
+    const shiftX = horizontal * 9;
+    const shiftY = vertical * 9;
+
+    targetMotionRef.current = {
+      rotateX: -vertical * 6,
+      rotateY: horizontal * 6,
+      scale: 1.025,
+      card1X: shiftX * 0.4,
+      card1Y: shiftY * 0.4,
+      card2X: shiftX * 0.7,
+      card2Y: shiftY * 0.7,
+      card3X: shiftX,
+      card3Y: shiftY,
+    };
+
+    queueMoneyStackAnimation();
+  }
+
+  function handleMoneyStackLeave() {
+    targetMotionRef.current = moneyStackRestMotion;
+    queueMoneyStackAnimation();
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={handleMoneyStackMove}
+      onMouseLeave={handleMoneyStackLeave}
+      style={moneyStackBaseStyle}
+      className="group relative mx-auto w-full max-w-[392px] [transform-style:preserve-3d]"
+    >
+      <div className="relative rounded-[22px] bg-[#16a8bc] p-4 shadow-[0_20px_40px_rgba(22,168,188,0.18)] transition-transform duration-500 ease-out will-change-transform [transform:perspective(1200px)_rotateX(var(--money-rotate-x))_rotateY(var(--money-rotate-y))_scale(var(--money-scale))]">
+        <div className="space-y-[18px]">
+          {moneyStackItems.map(([amount, label], index) => (
+            <div
+              key={amount}
+              style={
+                {
+                  transform: `translate3d(var(--money-card-${index + 1}-x), var(--money-card-${index + 1}-y), 0px)`,
+                } as CSSProperties
+              }
+              className="rounded-[12px] bg-white px-4 py-[18px] shadow-[0_2px_8px_rgba(18,24,40,0.08)] transition-[transform,box-shadow] duration-500 ease-out group-hover:shadow-[0_12px_28px_rgba(18,24,40,0.12)]"
+            >
+              <p className="font-body text-[37px] font-semibold leading-none tracking-[-0.04em] text-black">
+                {amount}
+              </p>
+              <p className="mt-6 text-[17px] leading-none text-[#5f6f82]">{label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FeatureCard({
   title,
   body,
@@ -106,8 +289,8 @@ function FeatureCard({
   icon?: ReactNode;
 }) {
   return (
-    <article className="flex flex-col items-center text-center">
-      <div className="mb-[30px] flex h-[150px] items-center justify-center">
+    <article className="group flex flex-col items-center rounded-[28px] px-6 py-8 text-center transition-[transform,box-shadow,background-color] duration-500 ease-out hover:-translate-y-2 hover:bg-[#f8fafc] hover:shadow-[0_20px_40px_rgba(18,24,40,0.08)] motion-reduce:transform-none motion-reduce:transition-none">
+      <div className="mb-[30px] flex h-[150px] items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-3 group-hover:scale-[1.06] motion-reduce:transform-none [&_img]:h-full [&_img]:w-auto [&_img]:transition-transform [&_img]:duration-500 [&_img]:ease-[cubic-bezier(0.22,1,0.36,1)]">
         {icon ?? (
           <div
             aria-hidden="true"
@@ -117,11 +300,13 @@ function FeatureCard({
           </div>
         )}
       </div>
-      <h3 className="font-body text-[24px] font-bold tracking-[-0.03em] text-[#323F4B]">
+      <h3 className="font-body text-[24px] font-bold tracking-[-0.03em] text-[#323F4B] transition-colors duration-300 group-hover:text-brand-indigo">
         {title}
       </h3>
       <div className="max-h-[72px]">
-        <p className="max-w-[307px] font-normal text-[18.6px] leading-[24px] text-[#323F4B]">{body}</p>
+        <p className="max-w-[307px] font-normal text-[18.6px] leading-[24px] text-[#323F4B] transition-colors duration-300 group-hover:text-[#445164]">
+          {body}
+        </p>
       </div>
     </article>
   );
@@ -143,7 +328,7 @@ function TestimonialCard({
           <h3 className="font-body text-[17px] font-bold leading-none tracking-[-0.03em] text-[#1f2937]">
             {title}
           </h3>
-          <div className="mt-3 inline-flex h-[22px] items-center rounded-[2px] bg-[#f7f8fb] px-1.5">
+          <div className="mt-3 inline-flex h-[22px] items-center rounded-[2px] px-1.5">
             <span className="text-[16px] leading-none tracking-[0.18em] text-[#ffbf00]">
               ★★★★★
             </span>
@@ -394,7 +579,8 @@ collection, and more.
           </div>
 
           <div className="grid items-center gap-12 lg:grid-cols-[392px_minmax(0,1fr)] lg:gap-[56px]">
-            <div className="rounded-[22px] bg-[#16a8bc] p-4 shadow-[0_20px_40px_rgba(22,168,188,0.18)]">
+            <MoneyStackShowcase />
+            <div className="hidden rounded-[22px] bg-[#16a8bc] p-4 shadow-[0_20px_40px_rgba(22,168,188,0.18)]">
               <div className="space-y-[18px]">
                 {[
                   ["\u00A3250.00", "Jenny's Birthday Present 🎁"],
