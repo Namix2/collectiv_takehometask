@@ -46,7 +46,7 @@ export function HomeHero({
             <h1 className="text-center font-body text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.04em] text-[#322d5a]">
               Collect money without sharing bank details.
             </h1>
-            <p className="mx-auto mt-3 max-w-[42rem] text-center font-display text-[clamp(1rem,2vw,1.125rem)] font-normal leading-7 text-[#4B5563] sm:leading-8">
+            <p className="mx-auto mt-3 max-w-[42rem] whitespace-nowrap text-center font-display text-[clamp(1rem,2vw,1.125rem)] font-normal leading-7 text-[#4B5563] sm:leading-8">
               Organise the things you love with the people you love, without getting stuck
               with the bill.
             </p>
@@ -85,7 +85,7 @@ export function HomeHero({
                 </form>
               </div>
 
-              <div className="relative mx-auto flex w-full max-w-[22rem] justify-center sm:max-w-[28rem] lg:max-w-[35rem]">
+              <div className="relative mx-auto flex w-full max-w-[22rem] justify-center sm:max-w-[28rem] lg:max-w-[28rem]">
                 <img src={heroImg} alt="" aria-hidden="true" className="w-full" />
               </div>
             </div>

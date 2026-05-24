@@ -248,7 +248,7 @@ export function PotPage() {
           <PotHeader />
 
           <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 pb-10 pt-20 text-center sm:pt-24">
-            <h1 className="max-w-4xl font-display text-[clamp(3rem,6vw,4.75rem)] font-semibold tracking-[-0.03em] text-white">
+            <h1 className="mx-auto max-w-[16ch] text-center font-display text-[clamp(3rem,6vw,4.75rem)] font-semibold tracking-[-0.03em] text-white break-words [overflow-wrap:anywhere]">
               {pot.name}
             </h1>
             <p className="mt-3 font-display text-[clamp(4.5rem,9vw,6.25rem)] font-extrabold leading-none text-white">

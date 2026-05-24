@@ -51,7 +51,7 @@ const testimonials = [
 const faqs = [
   {
     title: "How much does it cost?",
-    body: "Collctiv is completely free to use. You can collect and withdraw funds for free. If you'd like to support the product, you can choose to contribute an optional tip when you withdraw.",
+    body: "Collctiv is completely free to use! You can collect and withdraw funds for free 🙌 . Since we do have costs to be able to exist, we've created an exciting option for our amazing customers to contribute to the ongoing development of Collctiv. By giving you the option to tip, you become an essential part of our mission to help groups come together and do the things they love. When it's time to withdraw your funds, we believe in giving you control - if you’d like to support us in our journey, you can opt-in to contribute 2% of your withdrawn amount to Collctiv. You can read more about our optional tips in our FAQ here.",
   },
   {
     title: "How do I know my money is safe?",
@@ -59,11 +59,11 @@ const faqs = [
   },
   {
     title: "Who are Collctiv?",
-    body: "We're a friendly bunch based in the UK. We're a fintech company focused on making it easier to collect money upfront from groups, so you don't have to pay first and hope people pay you back later.",
+    body: "We're a friendly bunch based in the UK 🇬🇧 We're a FinTech company, which simply means we use state-of-the-art financial technology 🤓 to make it easier for you to split payments with your friends. More specifically, we make it easier for you to collect money upfront from your group, so you don't have to pay out for people, crossing your fingers 🤞 and hoping they pay you back. Our founders are Amy Whitell (CEO) and Pete Casson (CTO), who between them have over 40 years experience building technologies and businesses that have real impact on people's lives. More importantly, Pete (a Contributor) used to owe Amy (an Organiser) money all of the time. Nowadays he has no excuse, and everything is right with the world 😌",
   },
   {
     title: "How can I get help if I need it?",
-    body: "We've built Collctiv to make group collections easier, and if you run into any issues we'd love to help. Reach out to the team for support and we'll point you in the right direction.",
+    body: "We like to think of ourselves as a helpful bunch. We've built this app to help you collect money from your friends, and to help your friends to chip in to group gifts and activities more easily. And if you are having any issues at all, we'd love to help! In fact, we relish the challenge 💪 You can reach us via:",
   },
 ] as const;
 
