@@ -7,6 +7,7 @@ import heroImg2 from "../../assets/hero2img.svg";
 import messaging from "../../assets/sharepot.svg";
 import paymentprocessors from "../../assets/paymentprocessors.svg";
 import spend from "../../assets/spend.svg";
+import { Footer } from "../Footer";
 import { HomepageCta } from "./HomepageCta";
 
 const steps = [
@@ -64,22 +65,6 @@ const faqs = [
   {
     title: "How can I get help if I need it?",
     body: "We like to think of ourselves as a helpful bunch. We've built this app to help you collect money from your friends, and to help your friends to chip in to group gifts and activities more easily. And if you are having any issues at all, we'd love to help! In fact, we relish the challenge 💪 You can reach us via:",
-  },
-] as const;
-
-const footerColumns = [
-  { heading: "Navigation", items: ["Home", "About Us", "Blog", "Support"] },
-  {
-    heading: "Product",
-    items: ["Login", "App Store", "Google Pay", "Payment Pools"],
-  },
-  {
-    heading: "Legal",
-    items: ["Terms & Conditions", "Privacy Policy", "Cookies"],
-  },
-  {
-    heading: "More",
-    items: ["Contact Us", "Careers", "Gift Collections", "FAQs"],
   },
 ] as const;
 
@@ -349,7 +334,7 @@ export function HomeStaticSections() {
         <div className="mx-auto grid w-full max-w-[1080px] items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,27rem)] lg:gap-8">
           <div>
             <div className="max-w-[40.5rem]">
-              <h2 className="mt-2 max-w-[38rem] font-body text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.1]">
+              <h2 className="mt-2 max-w-[38rem] font-body text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[4.5rem]">
                 Organise the things you love with the people you love - without getting
                 stuck with the bill.
               </h2>
@@ -379,7 +364,7 @@ export function HomeStaticSections() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 mb-30">
         <div className="mx-auto max-w-[1080px]">
           <h2 className="text-center font-body text-[clamp(2.3rem,4vw,4rem)] font-bold tracking-[-0.05em] text-[#323F4B]">
             How does Collctiv work?
@@ -494,7 +479,7 @@ export function HomeStaticSections() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 mt-54 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1120px]">
           <h2 className="text-center font-body text-[clamp(2.5rem,5vw,3.9rem)] font-bold leading-[1.1] text-[#323F4B]">
             Our customers love us
@@ -601,48 +586,7 @@ export function HomeStaticSections() {
         </div>
       </section>
 
-      <footer className="border-t border-[#eceef5] px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[280px_1fr]">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex size-8 items-center justify-center rounded-full bg-[#f2167d] text-sm font-bold text-white">
-                C
-              </span>
-              <span className="font-display text-[28px] font-bold tracking-[-0.04em] text-[#322d5a]">
-                Collctiv
-              </span>
-            </div>
-            <p className="mt-6 text-[15px] leading-7 text-[#7b8698]">
-              Collctiv helps groups collect money quickly without sharing bank details
-              or chasing people for payment afterwards.
-            </p>
-            <div className="mt-6 flex gap-3">
-              {[0, 1, 2].map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex size-8 rounded-full border border-[#d8dce8] bg-white"
-                  aria-hidden="true"
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {footerColumns.map((column) => (
-              <div key={column.heading}>
-                <h3 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-[#8a93a8]">
-                  {column.heading}
-                </h3>
-                <ul className="mt-4 space-y-3 text-[15px] text-[#5f697d]">
-                  {column.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

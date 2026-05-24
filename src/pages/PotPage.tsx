@@ -5,6 +5,7 @@ import cornerRightIcon from "../assets/cornerright.png";
 import cornerRightTopIcon from "../assets/cornerrighttop.png";
 import emailIcon from "../assets/email.png";
 import facebookIcon from "../assets/facebook.png";
+import { Footer } from "../components/Footer";
 import { PotHeader } from "../components/Header";
 import instagramIcon from "../assets/instagram.png";
 import penIcon from "../assets/pen.svg";
@@ -312,50 +313,7 @@ export function PotPage() {
           </div>
         </section>
 
-        <footer className="mt-16 bg-[#efeff8] px-6 py-24 text-center text-[#7a839d]">
-          <div className="mx-auto flex max-w-4xl flex-col items-center">
-            <div className="flex items-center gap-8 text-[16px]">
-              <button
-                type="button"
-                className="transition hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
-              >
-                Privacy
-              </button>
-              <button
-                type="button"
-                className="transition hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
-              >
-                Support
-              </button>
-            </div>
-
-            <div className="mt-9 flex items-center gap-6 text-[#a2a8bb]">
-              <button
-                type="button"
-                aria-label="Instagram"
-                className="transition hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
-              >
-                <img src={instagramIcon} alt="" className="size-[22px] opacity-70" />
-              </button>
-              <button
-                type="button"
-                aria-label="Pinterest"
-                className="text-[24px] transition hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
-              >
-                P
-              </button>
-            </div>
-
-            <div className="mt-8 space-y-1 text-[14px] leading-6">
-              <p>{"\u00A9 2026 Collctiv Ltd. All rights reserved."}</p>
-              <p>Collctiv Ltd is a company registered in England and Wales (No. 11783005)</p>
-              <p>
-                Collctiv Ltd, Colony, 5 Piccadilly Place, Manchester, England, M1 3BR. VAT
-                number: 348654172
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer className="mt-16" />
 
         <SignUpModal isOpen={signUpModal.isOpen} onClose={signUpModal.close} />
       </main>
