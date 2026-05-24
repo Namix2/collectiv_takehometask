@@ -66,7 +66,11 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
         What are you collecting for?
       </legend>
 
-      <div className="grid w-full grid-cols-3 gap-2" role="radiogroup" aria-labelledby={legendId}>
+      <div
+        className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3"
+        role="radiogroup"
+        aria-labelledby={legendId}
+      >
         {POT_CATEGORIES.map((cat, index) => {
           const isActive = value === cat.value;
           const isTabbable = index === activeIndex;
@@ -82,7 +86,7 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
               role="radio"
               aria-checked={isActive}
               tabIndex={isTabbable ? 0 : -1}
-              className={`flex min-h-[68px] cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border px-3 py-2 text-center transition duration-150 ease-in-out hover:border-accent-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20 ${
+              className={`flex min-h-[74px] cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border px-3 py-2 text-center transition duration-150 ease-in-out hover:border-accent-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20 sm:min-h-[68px] ${
                 isActive
                   ? "border-accent-yellow bg-accent-yellow-soft shadow-[0_0_0_2px_rgba(255,222,0,0.35)]"
                   : "border-border-soft bg-[#F9FAFB]"
@@ -91,7 +95,7 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
               onKeyDown={(event) => handleOptionKeyDown(event, index)}
             >
               <span className="text-[18px] leading-none">{cat.icon}</span>
-              <span className="block max-w-[135px] font-display text-[12px] font-medium leading-[1.1] text-brand-indigo">
+              <span className="block max-w-[9rem] font-display text-[12px] font-medium leading-[1.1] text-brand-indigo sm:max-w-[135px]">
                 {cat.label}
               </span>
             </button>
