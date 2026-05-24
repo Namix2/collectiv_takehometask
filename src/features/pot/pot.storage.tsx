@@ -1,9 +1,19 @@
-import type { Pot } from './pot.types';
+import { isPot, type Pot } from "./pot.types";
 
-const POT_STORAGE_KEY = 'collctiv_group_pots';
+const POT_STORAGE_KEY = "collctiv_group_pots";
 
 function canUseStorage(): boolean {
-  return typeof window !== 'undefined' && Boolean(window.localStorage);
+  return typeof window !== "undefined" && Boolean(window.localStorage);
+}
+
+function parseStoredPots(rawValue: string): Pot[] {
+  const parsed = JSON.parse(rawValue) as unknown;
+
+  if (!Array.isArray(parsed)) {
+    return [];
+  }
+
+  return parsed.filter(isPot);
 }
 
 export function getStoredPots(): Pot[] {
@@ -14,7 +24,7 @@ export function getStoredPots(): Pot[] {
 
     if (!rawValue) return [];
 
-    return JSON.parse(rawValue) as Pot[];
+    return parseStoredPots(rawValue);
   } catch {
     return [];
   }

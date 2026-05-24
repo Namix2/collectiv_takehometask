@@ -4,7 +4,6 @@ import { MAX_POT_NAME_LENGTH } from "../features/pot/pot.constants";
 
 interface PotNameInputProps {
   value: string;
-  error?: string;
   inputId?: string;
   onChange: (value: string) => void;
   icon?: ReactNode;
@@ -12,7 +11,6 @@ interface PotNameInputProps {
 
 export function PotNameInput({
   value,
-  error,
   inputId = "pot-name",
   onChange,
   icon,
@@ -37,18 +35,10 @@ export function PotNameInput({
           value={value}
           maxLength={MAX_POT_NAME_LENGTH}
           onChange={(event) => onChange(event.target.value)}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? 'pot-name-error' : undefined}
           placeholder="Enter a name for this pot"
           className="w-full border-0 bg-transparent text-[16px] font-medium text-brand-indigo outline-none placeholder:font-medium placeholder:text-[#9CA3AF] placeholder:font-display"
         />
       </div>
-      
-      {error && (
-        <p id="pot-name-error" className="text-sm text-red-700" role="alert">
-          {error}
-        </p>
-      )}
     </div>
   );
 }

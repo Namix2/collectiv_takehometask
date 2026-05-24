@@ -22,7 +22,3 @@ export function validatePotCreationInput(
 
   return errors;
 }
-
-export function hasValidationErrors(errors: PotValidationErrors): boolean {
-  return Object.keys(errors).length > 0;
-}

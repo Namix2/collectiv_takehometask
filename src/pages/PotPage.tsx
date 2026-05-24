@@ -12,6 +12,7 @@ import qrIcon from "../assets/qr.svg";
 import { SignUpModal } from "../components/SignUpModal";
 import whatsappIcon from "../assets/whatsapp.png";
 import xIcon from "../assets/X.png";
+import { ModalShell } from "../components/ModalShell";
 import { getPotById } from "../features/pot/pot.storage";
 import { useDisclosure } from "../hooks/useDisclosure";
 
@@ -57,7 +58,7 @@ function CreationSplashScreen({ progress }: { progress: number }) {
     <main className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,#4d2bd2_0%,#260677_50%,#1a0350_100%)] px-4 font-body text-white">
       <section className="w-full max-w-[540px] rounded-[32px] border border-white/10 bg-white/8 p-8 text-center shadow-[0_24px_80px_rgba(10,6,33,0.45)] backdrop-blur-md">
         <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-white/12 text-[34px]">
-          ✦
+          {"\u2726"}
         </div>
         <h1 className="mt-7 font-body text-[42px] font-bold leading-none tracking-[-0.05em]">
           Creating your pot
@@ -142,15 +143,20 @@ function CreationCelebration({
   return (
     <>
       <CelebrationConfetti />
-      <div className="pointer-events-none fixed inset-0 z-50 flex items-start justify-center px-4 pt-16 sm:pt-20">
-        <section
-          aria-live="polite"
-          className="pointer-events-auto w-full max-w-[560px] rounded-[30px] bg-white p-8 text-center shadow-[0_28px_80px_rgba(30,27,75,0.28)]"
-        >
+      <ModalShell
+        ariaLabelledBy="creation-celebration-title"
+        isOpen={isOpen}
+        onClose={onClose}
+        panelClassName="relative mt-8 w-full max-w-[560px] rounded-[30px] bg-white p-8 text-center shadow-[0_28px_80px_rgba(30,27,75,0.28)] sm:mt-12"
+      >
+        <section aria-live="polite">
           <div className="mx-auto flex size-18 items-center justify-center rounded-full bg-accent-yellow-soft text-[34px] text-brand-indigo">
-            🎉
+            {"\u{1F389}"}
           </div>
-          <h2 className="mt-6 font-body text-[44px] font-bold leading-[0.96] tracking-[-0.05em] text-[#323F4B]">
+          <h2
+            id="creation-celebration-title"
+            className="mt-6 font-body text-[44px] font-bold leading-[0.96] tracking-[-0.05em] text-[#323F4B]"
+          >
             Congratulations
           </h2>
           <p className="mt-4 text-[18px] leading-7 text-[#5f6f82]">
@@ -167,7 +173,7 @@ function CreationCelebration({
             </button>
           </div>
         </section>
-      </div>
+      </ModalShell>
     </>
   );
 }
