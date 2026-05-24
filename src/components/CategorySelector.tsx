@@ -31,6 +31,7 @@ export function CategorySelector({
             <button
               key={cat.value}
               type="button"
+              data-category-option="true"
               role="radio"
               aria-checked={isActive}
               className={`flex min-h-[68px] cursor-pointer flex-col items-center justify-center gap-1 rounded-[14px] border px-3 py-2 text-center transition duration-150 ease-in-out hover:border-accent-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20 ${

@@ -5,14 +5,21 @@ import { MAX_POT_NAME_LENGTH } from "../features/pot/pot.constants";
 interface PotNameInputProps {
   value: string;
   error?: string;
+  inputId?: string;
   onChange: (value: string) => void;
   icon?: ReactNode;
 }
 
-export function PotNameInput({ value, error, onChange, icon }: PotNameInputProps) {
+export function PotNameInput({
+  value,
+  error,
+  inputId = "pot-name",
+  onChange,
+  icon,
+}: PotNameInputProps) {
   return (
     <div className="flex flex-col gap-3">
-      <label htmlFor="pot-name" className="font-body text-[16px] font-semibold text-brand-indigo">
+      <label htmlFor={inputId} className="font-body text-[16px] font-semibold text-brand-indigo">
         What should we call the pot?
       </label>
 
@@ -25,7 +32,7 @@ export function PotNameInput({ value, error, onChange, icon }: PotNameInputProps
         </span>
 
         <input
-          id="pot-name"
+          id={inputId}
           type="text"
           value={value}
           maxLength={MAX_POT_NAME_LENGTH}

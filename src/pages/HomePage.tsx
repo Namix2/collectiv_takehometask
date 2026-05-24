@@ -23,10 +23,8 @@ import spend from "../assets/spend.svg";
 import type {
   PotCategory,
   PotCreationInput,
-  PotValidationErrors,
 } from "../features/pot/pot.types";
 import {
-  hasValidationErrors,
   validatePotCreationInput,
 } from "../features/pot/pot.validation";
 import { createPot } from "../features/pot/pot.service";
@@ -358,6 +356,93 @@ function HomepageCta({ label = "Collect money now" }: { label?: string }) {
   );
 }
 
+interface FormPromptModalProps {
+  action: "category" | "name";
+  body: string;
+  ctaLabel: string;
+  children: ReactNode;
+  isContinueDisabled: boolean;
+  isOpen: boolean;
+  onClose: () => void;
+  onContinue: () => void;
+  title: string;
+}
+
+function FormPromptModal({
+  action,
+  body,
+  ctaLabel,
+  children,
+  isContinueDisabled,
+  isOpen,
+  onClose,
+  onContinue,
+  title,
+}: FormPromptModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      role="presentation"
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-brand-indigo/35 px-4"
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-prompt-title"
+        onClick={(event) => event.stopPropagation()}
+        className="w-full max-w-[440px] rounded-[28px] bg-white p-7 shadow-[0_24px_64px_rgba(30,27,75,0.22)]"
+      >
+        <div className="flex items-start justify-between gap-4">
+          <h2
+            id="form-prompt-title"
+            className="font-body text-[32px] font-bold leading-[1.02] tracking-[-0.04em] text-[#323F4B]"
+          >
+            {title}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close prompt"
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border-soft text-[20px] text-[#5f6f82] transition hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
+          >
+            ×
+          </button>
+        </div>
+        <p className="mt-4 text-[17px] leading-7 text-[#5f6f82]">{body}</p>
+        <div className="mt-6">
+          {children}
+        </div>
+        <div className="mt-7 flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-11 items-center justify-center rounded-full border border-border-soft px-5 font-body text-sm font-semibold text-brand-indigo transition hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            onClick={onContinue}
+            disabled={isContinueDisabled}
+            className="inline-flex h-11 items-center justify-center rounded-full bg-accent-yellow px-5 font-body text-sm font-semibold text-brand-indigo transition hover:brightness-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {action === "name" ? "Save name and continue" : ctaLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type FormPromptConfig = {
+  action: "category" | "name";
+  body: string;
+  ctaLabel: string;
+  title: string;
+};
+
 export function HomePage() {
   const navigate = useNavigate();
 
@@ -365,9 +450,8 @@ export function HomePage() {
     name: "",
     category: "",
   });
-
-  const [errors, setErrors] = useState<PotValidationErrors>({});
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [formPrompt, setFormPrompt] = useState<FormPromptConfig | null>(null);
 
   function updateName(name: string) {
     setFormData((current) => ({
@@ -383,24 +467,60 @@ export function HomePage() {
     }));
   }
 
-  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  function continuePotCreation() {
     const validationErrors = validatePotCreationInput(formData);
-    setErrors(validationErrors);
 
-    if (hasValidationErrors(validationErrors)) {
+    if (validationErrors.name) {
+      setFormPrompt({
+        action: "name",
+        body: validationErrors.name,
+        ctaLabel: "Add a pot name",
+        title: "Give your pot a name first",
+      });
       return;
     }
 
+    if (validationErrors.category) {
+      setFormPrompt({
+        action: "category",
+        body: validationErrors.category,
+        ctaLabel: "Choose a category",
+        title: "Pick what you're collecting for",
+      });
+      return;
+    }
+
+    setFormPrompt(null);
+
     const pot = createPot(formData);
 
-    navigate(`/app/pots/${pot.id}`);
+    navigate(`/app/pots/${pot.id}`, {
+      state: {
+        creationFlow: true,
+      },
+    });
+  }
+
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    continuePotCreation();
   }
 
   function toggleFaq(index: number) {
     setOpenFaqIndex((current) => (current === index ? null : index));
   }
+
+  function closeFormPrompt() {
+    setFormPrompt(null);
+  }
+
+  const isFormPromptReady =
+    formPrompt?.action === "name"
+      ? Boolean(formData.name.trim())
+      : formPrompt?.action === "category"
+        ? Boolean(formData.category)
+        : false;
+  const isSubmitDisabled = !formData.name.trim() && !formData.category;
 
   return (
     <main className="bg-white font-body text-brand-indigo">
@@ -445,13 +565,11 @@ export function HomePage() {
                   >
                     <CategorySelector
                       value={formData.category}
-                      error={errors.category}
                       onChange={updateCategory}
                     />
 
                     <PotNameInput
                       value={formData.name}
-                      error={errors.name}
                       onChange={updateName}
                       icon={
                         <img src={penIcon} alt="" className="block size-5" />
@@ -460,7 +578,8 @@ export function HomePage() {
 
                     <button
                       type="submit"
-                      className="mt-1 inline-flex h-[48px] w-full items-center justify-center rounded-full bg-accent-yellow px-5 font-display text-[18px] cursor-pointer font-semibold text-brand-indigo transition hover:brightness-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow/60"
+                      disabled={isSubmitDisabled}
+                      className="mt-1 inline-flex h-[48px] w-full items-center justify-center rounded-full bg-accent-yellow px-5 font-display text-[18px] font-semibold text-brand-indigo transition hover:brightness-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow/60 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:brightness-100"
                     >
                       Create your pot
                     </button>
@@ -801,6 +920,28 @@ collection, and more.
           </div>
         </div>
       </footer>
+
+      <FormPromptModal
+        action={formPrompt?.action ?? "name"}
+        body={formPrompt?.body ?? ""}
+        ctaLabel={formPrompt?.ctaLabel ?? "Continue"}
+        isContinueDisabled={!isFormPromptReady}
+        isOpen={Boolean(formPrompt)}
+        onClose={closeFormPrompt}
+        onContinue={continuePotCreation}
+        title={formPrompt?.title ?? ""}
+      >
+        {formPrompt?.action === "name" ? (
+          <PotNameInput
+            inputId="pot-name-modal"
+            value={formData.name}
+            onChange={updateName}
+            icon={<img src={penIcon} alt="" className="block size-5" />}
+          />
+        ) : (
+          <CategorySelector value={formData.category} onChange={updateCategory} />
+        )}
+      </FormPromptModal>
     </main>
   );
 }
