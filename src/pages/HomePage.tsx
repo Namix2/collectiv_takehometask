@@ -50,19 +50,19 @@ const testimonials = [
 const faqs = [
   {
     title: "How much does it cost?",
-    body: "This homepage template explains the flow clearly, but your pricing and fee language can be added here later. Keep this section concise and practical.",
+    body: "Collctiv is completely free to use! You can collect and withdraw funds for free 🙌. Since we do have costs to be able to exist, we've created an exciting option for our amazing customers to contribute to the ongoing development of Collctiv. By giving you the option to tip, you become an essential part of our mission to help groups come together and do the things they love. When it's time to withdraw your funds, we believe in giving you control - if you’d like to support us in our journey, you can opt-in to contribute 2% of your withdrawn amount to Collctiv. You can read more about our optional tips in our FAQ here.",
   },
   {
     title: "How do I know my money is safe?",
-    body: "Use this area for your trust, compliance, and safeguarding copy. The layout is already in place so you can replace the placeholder text with approved messaging.",
+    body: "We take security very seriously and as such have designed the app with rigorous controls in place. We partner with third parties who specialise in providing security for different elements of the app. We use Nuvei and PayPoint Plc as globally-trusted and FCA-regulated payment processors and Persona to verify the identity of anyone collecting and withdrawing money from the Collctiv app. All of our payments are 3D secured by default, meaning that we ask your bank or card issuer to require you to authorise any payment you make into a Collctiv pot, if they have those controls in place.",
   },
   {
     title: "Who are Collctiv?",
-    body: "This block is ready for your company introduction, story, and positioning. It mirrors the structure of the reference without hard-coding its exact copy.",
+    body: "We're a friendly bunch based in the UK 🇬🇧 We're a FinTech company, which simply means we use state-of-the-art financial technology 🤓 to make it easier for you to split payments with your friends. More specifically, we make it easier for you to collect money upfront from your group, so you don't have to pay out for people, crossing your fingers 🤞 and hoping they pay you back. Our founders are Amy Whitell (CEO) and Pete Casson (CTO), who between them have over 40 years experience building technologies and businesses that have real impact on people's lives. More importantly, Pete (a Contributor) used to owe Amy (an Organiser) money all of the time. Nowadays he has no excuse, and everything is right with the world 😌",
   },
   {
     title: "How can I get help if I need it?",
-    body: "Point people to your help centre, contact form, or support email here. The section is designed for dense informational copy without losing readability.",
+    body: "We like to think of ourselves as a helpful bunch. We've built this app to help you collect money from your friends, and to help your friends to chip in to group gifts and activities more easily. And if you are having any issues at all, we'd love to help! In fact, we relish the challenge 💪 You can reach us via:",
   },
 ];
 
@@ -478,8 +478,8 @@ export function HomePage() {
       </section>
 
       <section className="bg-[#260677] px-4 py-16 text-white sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[1180px]">
-          <h2 className="text-center font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em]">
+        <div className="mx-auto max-w-[1200px]">
+          <h2 className="text-center font-body leading-22.75 text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em]">
             You&apos;re in great company
           </h2>
 
@@ -490,11 +490,11 @@ export function HomePage() {
               ["175", "Countries"],
               ["5m", "Transactions"],
             ].map(([value, label]) => (
-              <div key={label}>
-                <p className="font-display text-[44px] font-bold tracking-[-0.05em] text-[#ff2b91]">
+              <div key={label} className="h-[151px] flex flex-col justify-center">
+                <p className="font-body text-[62px] font-bold leading-22.75 tracking-[-0.05em] text-[#ff2b91] mb-4">
                   {value}
                 </p>
-                <p className="mt-2 text-lg text-white/80">{label}</p>
+                <p className="mt-2 text-[33.5px] text-white">{label}</p>
               </div>
             ))}
           </div>
@@ -502,12 +502,12 @@ export function HomePage() {
       </section>
 
       <section className="px-4 py-20 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[980px]">
-          <h2 className="text-center font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+        <div className="mx-auto max-w-[1080px]">
+          <h2 className="text-center font-body text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#323F4B]">
             Have any questions?
           </h2>
 
-          <div className="mt-14 space-y-8">
+          <div className="mt-10 space-y-10">
             {faqs.map((faq, index) => (
               <article
                 key={faq.title}
@@ -519,7 +519,7 @@ export function HomePage() {
                   aria-expanded={openFaqIndex === index}
                   className="flex w-full items-center justify-between gap-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo/20"
                 >
-                  <h3 className="font-display text-[24px] font-bold tracking-[-0.03em] text-[#445164]">
+                  <h3 className="font-body text-[24px] font-bold tracking-[-0.03em] text-[#323F4B]">
                     {faq.title}
                   </h3>
                   <span
