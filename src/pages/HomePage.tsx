@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import penIcon from "../assets/pen.svg";
 import { CategorySelector } from "../components/CategorySelector";
+import appStoreLogo from "../assets/App Store Logo.svg";
 import collctivLogo from "../assets/collctivLogo_indigo.svg";
+import googlePlayLogo from "../assets/Google Play Logo.svg";
 import heroImg2 from "../assets/hero2img.svg";
 import { PotNameInput } from "../components/PotNameInput";
+import birthdayGift from "../assets/birthdaygift.svg"
 import heroImg from "../assets/heroimg.svg";
+import collctivhalf from "../assets/collctiv_half.svg";
+import messaging from "../assets/sharepot.svg";
+import paymentprocessors from "../assets/paymentprocessors.svg";
+import spend from "../assets/spend.svg";
 import type {
   PotCategory,
   PotCreationInput,
@@ -20,30 +27,37 @@ import { createPot } from "../features/pot/pot.service";
 const steps = [
   {
     title: "Create your Pot",
-    body: "Build a custom collection page in moments, then share the link anywhere you need it.",
+    body: "Collection pots are free, create as many as you want, it only takes a couple of seconds.",
   },
   {
     title: "Share the Pot link",
-    body: "Drop it into chats, email threads, and social posts so everyone can pay in the way that suits them.",
+    body: "Share the link on WhatsApp, Messenger, email, a website, SMS, basically anywhere you like.",
   },
   {
     title: "Spend the money",
-    body: "Use the collected funds for the thing you organised without passing your own bank details around.",
+    body: "Buy a gift card, send on to someone else or withdraw to your bank account.",
   },
 ];
 
-const testimonials = [
+const testimonials: Array<{
+  title: string;
+  body: string;
+  store: "app" | "play";
+}> = [
   {
     title: "Boss Lady D",
-    body: "No more chasing parents for cash, simply pull out the app, scan the code and spend the link.",
+    body: "No more chasing parents for cash, simply pull out the app, scan the code or send the link and couple clicks and payment made.",
+    store: "app",
   },
   {
     title: "Claire",
-    body: "Perfect for a class collection for teacher gifts. Really easy to use and I would definitely recommend.",
+    body: "Perfect for a class collection for teacher gifts. Really easy to use & I would definitely recommend.",
+    store: "play",
   },
   {
-    title: "Prudent O",
-    body: "Brilliant app to help collection of funds for different activities and also helps keep track of money.",
+    title: "Prudent Ogwutum",
+    body: "Brilliant app to help collection of funds for different activities and also helps keep track of money going in and out if its an ongoing collection pool.",
+    store: "app",
   },
 ];
 
@@ -82,48 +96,68 @@ const footerColumns: Array<{ heading: string; items: string[] }> = [
   },
 ];
 
-const stackBars = [
-  { left: 0, bottom: 0, width: 168 },
-  { left: 24, bottom: 20, width: 158 },
-  { left: 58, bottom: 44, width: 142 },
-];
-
 function FeatureCard({
   title,
   body,
-  accent,
+  icon,
 }: {
   title: string;
   body: string;
-  accent: string;
+  icon?: ReactNode;
 }) {
   return (
     <article className="flex flex-col items-center text-center">
-      <div
-        aria-hidden="true"
-        className={`mb-5 flex size-24 items-center justify-center rounded-[28px] ${accent}`}
-      >
-        <div className="size-12 rounded-full bg-white/90" />
+      <div className="mb-[30px] flex h-[150px] items-center justify-center">
+        {icon ?? (
+          <div
+            aria-hidden="true"
+            className="flex h-[150px] w-[150px] items-center justify-center rounded-[32px] border-2 border-dashed border-[#d0d5dd] bg-[#f8fafc] font-body text-sm font-medium text-[#98a2b3]"
+          >
+            Icon
+          </div>
+        )}
       </div>
-      <h3 className="font-display text-[22px] font-bold tracking-[-0.03em] text-[#3f4a5d]">
+      <h3 className="font-body text-[24px] font-bold tracking-[-0.03em] text-[#323F4B]">
         {title}
       </h3>
-      <p className="mt-3 max-w-[270px] text-[15px] leading-6 text-[#667085]">
-        {body}
-      </p>
+      <div className="max-h-[72px]">
+        <p className="max-w-[307px] font-normal text-[18.6px] leading-[24px] text-[#323F4B]">{body}</p>
+      </div>
     </article>
   );
 }
 
-function TestimonialCard({ title, body }: { title: string; body: string }) {
+function TestimonialCard({
+  title,
+  body,
+  store,
+}: {
+  title: string;
+  body: string;
+  store: "app" | "play";
+}) {
   return (
-    <article className="rounded-2xl border border-[#e6e8f1] bg-white p-4 shadow-[0_10px_20px_rgba(18,24,40,0.04)]">
-      <div
-        className="mb-2 h-3 w-16 rounded-full bg-[#ffd84f]"
-        aria-hidden="true"
-      />
-      <h3 className="font-display text-sm font-bold text-[#445164]">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-[#667085]">{body}</p>
+    <article className="rounded-[18px] border border-[#d7dce8] bg-white px-6 py-5 shadow-[0_10px_24px_rgba(18,24,40,0.04)]">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="font-body text-[17px] font-bold leading-none tracking-[-0.03em] text-[#1f2937]">
+            {title}
+          </h3>
+          <div className="mt-3 inline-flex h-[22px] items-center rounded-[2px] bg-[#f7f8fb] px-1.5">
+            <span className="text-[16px] leading-none tracking-[0.18em] text-[#ffbf00]">
+              ★★★★★
+            </span>
+          </div>
+        </div>
+        <img
+          src={store === "app" ? appStoreLogo : googlePlayLogo}
+          alt={store === "app" ? "App Store" : "Google Play"}
+          className="h-[52px] w-[52px] shrink-0"
+        />
+      </div>
+      <p className="mt-3 max-w-[294px] text-[17px] leading-[1.45] text-[#323F4B]">
+        {body}
+      </p>
     </article>
   );
 }
@@ -306,152 +340,139 @@ export function HomePage() {
       </section>
 
       <section className="px-4 py-20 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[1180px]">
-          <h2 className="text-center font-display text-[clamp(2.3rem,4vw,4rem)] font-bold tracking-[-0.05em] text-[#445164]">
+        <div className="mx-auto max-w-[1080px]">
+          <h2 className="text-center font-body text-[clamp(2.3rem,4vw,4rem)] font-bold tracking-[-0.05em] text-[#323F4B]">
             How does Collctiv work?
           </h2>
 
-          <div className="mt-14 grid gap-12 lg:grid-cols-3">
+          <div className="mt-14 grid gap-4 lg:grid-cols-3">
             <FeatureCard
               title={steps[0].title}
               body={steps[0].body}
-              accent="bg-[linear-gradient(135deg,#ff2b91,#f2167d)]"
+              icon={
+                <img src={collctivhalf} alt="Create your pot" />
+              }
             />
             <FeatureCard
               title={steps[1].title}
               body={steps[1].body}
-              accent="bg-[linear-gradient(135deg,#4b9bff,#7ed3ff)]"
+               icon={
+                <img src={messaging} alt="Share the pot link" />
+              }
             />
             <FeatureCard
               title={steps[2].title}
               body={steps[2].body}
-              accent="bg-[linear-gradient(135deg,#d4af37,#f7e27b)]"
+                icon={
+                <img src={spend} alt="spend the money" />
+              }
             />
           </div>
         </div>
       </section>
 
       <section className="px-4 py-12 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[1180px] space-y-20">
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="mx-auto max-w-[1080px] space-y-20">
+          <div className="grid items-center lg:grid-cols-[minmax(0,1fr)_420px]">
             <div>
-              <h2 className="font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+              <h2 className="font-body text-[51.6px] font-bold text-[#323F4B]">
                 Customise your Pot
               </h2>
-              <p className="mt-5 max-w-[520px] text-[16px] leading-7 text-[#667085]">
-                Add a closing date, show who has paid, or attach extra
-                information about the collection and where the money is going.
+              <p className="mt-4 max-w-[520px] text-[16px] leading-7 text-[#323F4B]">
+                Customise your Pot, send a closing date, show who’s paid in
+already, add a fundraising target, add extra information about the
+collection, and more.
               </p>
-              <div className="mt-8">
+              <div className="mt-4">
                 <HomepageCta />
               </div>
             </div>
 
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative rounded-[30px] bg-[#12a3b5] px-9 py-8 text-white shadow-[0_18px_36px_rgba(18,163,181,0.25)]">
-                <div className="absolute -right-4 -top-5 rotate-12 rounded-2xl bg-[#6b4cff] px-5 py-3 font-display text-[34px] font-bold">
-                  10
-                </div>
-                <div className="absolute -left-4 top-4 h-10 w-10 rounded-full bg-accent-yellow" />
-                <p className="relative font-display text-[42px] font-bold leading-none tracking-[-0.05em]">
-                  Jenny&apos;s
-                </p>
-                <p className="relative mt-2 font-display text-[42px] font-bold leading-none tracking-[-0.05em]">
-                  Birthday Gift
-                </p>
-              </div>
+                <div className="flex justify-center lg:justify-end">
+                <img src={birthdayGift} alt="birthday gift" className="" />
             </div>
           </div>
 
-          <div className="grid items-center gap-10 lg:grid-cols-[380px_minmax(0,1fr)]">
-            <div className="rounded-[26px] border-[6px] border-[#11a7ba] bg-white p-4 shadow-[0_18px_36px_rgba(17,167,186,0.16)]">
-              <div className="space-y-3">
+          <div className="grid items-center gap-12 lg:grid-cols-[392px_minmax(0,1fr)] lg:gap-[56px]">
+            <div className="rounded-[22px] bg-[#16a8bc] p-4 shadow-[0_20px_40px_rgba(22,168,188,0.18)]">
+              <div className="space-y-[18px]">
                 {[
-                  ["\u00A3250.00", "Jenny’s Birthday Present"],
-                  ["\u00A367.00", "Thursday Tennis"],
-                  ["\u00A33,650.00", "New York Holiday"],
+                  ["\u00A3250.00", "Jenny's Birthday Present 🎁"],
+                  ["\u00A367.00", "Thursday Tennis 🎾"],
+                  ["\u00A33,650.00", "New York Holiday 🗽"],
                 ].map(([amount, label]) => (
                   <div
                     key={amount}
-                    className="rounded-2xl border border-[#dce6ee] bg-[#fbfdff] px-4 py-3"
+                    className="rounded-[12px] bg-white px-4 py-[18px] shadow-[0_2px_8px_rgba(18,24,40,0.08)]"
                   >
-                    <p className="font-display text-[28px] font-bold tracking-[-0.04em] text-[#445164]">
+                    <p className="font-body text-[37px] font-semibold leading-none tracking-[-0.04em] text-black">
                       {amount}
                     </p>
-                    <p className="mt-1 text-sm text-[#7b8698]">{label}</p>
+                    <p className="mt-6 text-[17px] leading-none text-[#5f6f82]">
+                      {label}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div>
-              <h2 className="max-w-[520px] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+            <div className="max-w-[688px] lg:pt-2">
+              <h2 className="max-w-[680px] font-body text-[51.8px] font-bold leading-[66px] text-[#323F4B]">
                 Keep money separate from your bank
               </h2>
-              <p className="mt-5 max-w-[520px] text-[16px] leading-7 text-[#667085]">
-                Keep track of who&apos;s paid what and when, without mixing
-                group money into your personal account.
+              <p className="mt-4 max-w-[650px] text-[18.9px] leading-[28px] text-[#323F4B]">
+                Don&apos;t mix group money in with your personal bank account.
+                Keep track of who&apos;s paid what and when.
               </p>
-              <div className="mt-8">
+              <div className="mt-4 lg:flex lg:justify-end">
                 <HomepageCta />
               </div>
             </div>
           </div>
 
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_420px]">
-            <div>
-              <h2 className="max-w-[520px] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_486px] lg:gap-[72px]">
+            <div className="max-w-[560px]">
+              <h2 className="max-w-[520px] font-body text-[52px] font-bold leading-[66px] text-[#323F4B]">
                 Making a payment takes seconds
               </h2>
-              <p className="mt-5 max-w-[520px] text-[16px] leading-7 text-[#667085]">
-                Anyone paying into the collection can use their preferred wallet
-                or card flow. You do not need to sign up for an account or
-                download an app to pay.
+              <p className="mt-4 max-w-[560px] text-[18px] leading-[28px] text-[#323F4B]">
+                Anyone paying into the collection pot just uses their card
+                details or they can use Apple Pay or Google Pay. No need to
+                sign up for an account or download an app, just tap and
+                you&apos;re done! The money appears in your pot instantly.
               </p>
-              <div className="mt-8">
+              <div className="mt-4">
                 <HomepageCta />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {["VISA", "mastercard", "G Pay", "Apple Pay"].map((item) => (
-                <div
-                  key={item}
-                  className="flex h-24 items-center justify-center rounded-2xl border border-[#dce2ef] bg-white font-display text-[28px] font-bold text-[#445164] shadow-[0_10px_20px_rgba(18,24,40,0.04)]"
-                >
-                  {item}
-                </div>
-              ))}
+            <div className="flex justify-center lg:justify-end">
+              <img
+                src={paymentprocessors}
+                alt="Supported payment processors"
+                className="w-full max-w-[486px]"
+              />
             </div>
           </div>
 
-          <div className="grid items-center gap-10 lg:grid-cols-[360px_minmax(0,1fr)]">
+          <div className="grid items-center gap-12 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-[72px]">
             <div className="flex justify-center lg:justify-start">
-              <div className="relative h-56 w-72">
-                {stackBars.map((stack, index) => (
-                  <div
-                    key={index}
-                    className="absolute h-14 rounded-full bg-[linear-gradient(180deg,#d7b93a,#a58812)] shadow-[0_10px_20px_rgba(165,136,18,0.25)]"
-                    style={{
-                      left: stack.left,
-                      bottom: stack.bottom,
-                      width: stack.width,
-                    }}
-                  />
-                ))}
-                <div className="absolute left-20 top-0 h-28 w-28 rounded-full bg-[radial-gradient(circle_at_35%_30%,#ffe58f,#d4af37_55%,#9d7c05)] shadow-[0_16px_28px_rgba(165,136,18,0.28)]" />
-              </div>
+              <img
+                src={spend}
+                alt="Coins representing collected money"
+                className="w-full max-w-[400px]"
+              />
             </div>
 
-            <div>
-              <h2 className="max-w-[520px] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+            <div className="max-w-[560px]">
+              <h2 className="max-w-[520px] font-body text-[51.3px] font-bold leading-[66px] text-[#323F4B]">
                 Spend the money instantly
               </h2>
-              <p className="mt-5 max-w-[520px] text-[16px] leading-7 text-[#667085]">
-                Use the collected money as a gift card, send it to someone else,
-                or withdraw it when the collection is complete.
+              <p className="mt-4 max-w-[560px] text-[18px] leading-[1.35] text-[#33475f]">
+                Buy a gift card, send the money to someone else or withdraw
+                straight to your bank account. The choice is yours.
               </p>
-              <div className="mt-8">
+              <div className="mt-4 lg:flex lg:justify-end">
                 <HomepageCta />
               </div>
             </div>
@@ -460,17 +481,18 @@ export function HomePage() {
       </section>
 
       <section className="px-4 py-20 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[1180px]">
-          <h2 className="text-center font-display text-[clamp(2.2rem,4vw,3.8rem)] font-bold tracking-[-0.05em] text-[#445164]">
+        <div className="mx-auto max-w-[1120px]">
+          <h2 className="text-center font-body text-[62.4px] font-bold leading-[91px] text-[#323F4B]">
             Our customers love us
           </h2>
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
               <TestimonialCard
                 key={testimonial.title}
                 title={testimonial.title}
                 body={testimonial.body}
+                store={testimonial.store}
               />
             ))}
           </div>
@@ -524,7 +546,7 @@ export function HomePage() {
                   </h3>
                   <span
                     aria-hidden="true"
-                    className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-[#d8dce8] text-xl text-[#667085] transition ${
+                    className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-[#d8dce8] text-xl text-[#667085] transition duration-300 ${
                       openFaqIndex === index ? "rotate-45" : ""
                     }`}
                   >
@@ -532,11 +554,19 @@ export function HomePage() {
                   </span>
                 </button>
 
-                {openFaqIndex === index ? (
-                  <p className="mt-4 pr-12 text-[16px] leading-7 text-[#667085]">
-                    {faq.body}
-                  </p>
-                ) : null}
+                <div
+                  className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                    openFaqIndex === index
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="pt-4 pr-12 text-[16px] leading-7 text-[#667085]">
+                      {faq.body}
+                    </p>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
